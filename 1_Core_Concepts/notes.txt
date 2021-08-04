@@ -1,0 +1,42 @@
+Kubernetes Architecture
+
+Nodes:
+
+- Worker (as a ships) - host application containers:
+-- container runtime (docker, rkt)
+-- kubelet (communication with Master Node)
+-- kube-proxy (communication with other Worker Nodes)
+
+- Master - Scheduling, Management, Monitoring of Nodes :
+
+-- etcd - K/V database (nodes, pods, Configs, Secrets, Accounts, Roles, Bindings)
+    
+    key-value store means not table format (columns & row)  but Key<>Value (Name:John): Put Name "Jonh"-> Get Name -> "John"
+    listens port 2379
+    multiple master nodes mean multiple etcd
+    Run: ./etcd
+    Change: ./etcdctl set key1 value1
+    View: ./etcdct; get key1 (ex. available commands: etcdctl get / --prefix -keys-only)
+    Configuring: etcd.service
+
+
+-- kube-scheduler (pods scheduler, with capacity, resources and so on)
+-- controller-manager (node-controller, replication-controller)
+-- kube-apiserver (all operations orchestration)
+
+    kubectl is working with kube-apiserver
+    Flow: 
+        kubectl run pod -> 
+        ApiServer is authenticating user -> is it ok to ask for that?
+        Validation of request -> is it proper request?
+        Retrieve data from etcd -> it's a new pod!
+        Ask Scheduler -> let's schedule the pod on this node!
+        Ask Kubelet -> run pod
+        Ask runtime -> run container
+        Notify kube-apiserver -> Done!
+        Update etcd (!!! Kube Apiservier is the only component's working with etcd !!!)
+    Configuration: kube-apiserver.service
+    
+
+
+
