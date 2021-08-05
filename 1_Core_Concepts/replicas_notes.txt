@@ -1,0 +1,46 @@
+Replication Controller Goals:
+- HA
+- Load Balancing
+- Scaling
+
+Replication controller != ReplicaSet
+But, Replication controller was replaced with ReplicaSet
+
+###
+Replication Controller Definition:
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: my-app-rc
+  labels:
+    type: front-end
+spec:
+  template:
+    metadata: 
+        name: myapp-pod
+        labels:
+            app: myapp
+            type: front-end
+    spec:
+        containers:
+            - name: nginx-container
+              image: nginx
+
+            - name: backend-container
+              image: redis
+    replicas: 3
+###
+# kubectl get ReplicationController
+
+replicaset major difference is in SELECOR property in spec
+SELECTOR is REQUURED FOR ReplicaSet
+
+#Scaling
+1. change the number of replicas
+2. kubectl replace -f <name>.yaml OR kubectl scale --replicas=X <name>.yaml OR kubectl scale --replicas=X replicaset <name>
+3. file won't be modified
+
++ 
+kubectl edit <type> <name>
+
