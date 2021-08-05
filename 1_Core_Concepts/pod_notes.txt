@@ -1,0 +1,26 @@
+
+# Additional Loading can be granted not via additional containers but via additional pods OR additional nodes with additional pods
+# Scale up: create pod, Scale down: delete pod
+
+# Multi Container pods:
+# Pods CAN consist of few containers (helper containers, for example)
+# Two containers in Pod share the POD Network  (internal)
+
+# commands:
+
+kubectl run nginx
+#runs nginx with dockerhub image
+
+kubectl run nginx --image nginx
+# to specify image in public dockerhub
+
+kubectl get pods
+# list pods
+
+kubectl describe pod <name>
+# verbose description
+
+kubectl create -f <name.yaml>
+# creating pods
+
+

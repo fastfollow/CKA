@@ -4,10 +4,27 @@ Nodes:
 
 - Worker (as a ships) - host application containers:
 -- container runtime (docker, rkt)
+
 -- kubelet (communication with Master Node)
+#Kubeadm doesnt deploy Kubelets - it must be done manually
+    
+    Gets requests from scheduller via apiserver and dispatch it to runtime
+    Responsibilities: Register Node, Create Pods, Monitor Node and Pods
+    ps -aux | grep kubelet
+
+
 -- kube-proxy (communication with other Worker Nodes)
 
+    POD Netwrok is a virtual network connecting the Pods
+    Example: two nodes : 10.32.0.14, 10.32.0.15, we create the service: db
+    pod network then dispatchs traffic
+    service is not a pod, it's only living in memory
+    kube-proxy runs on each node, looks for new services
+    It creates iptables rules in accordance with cluster Configuration
+
+
 - Master - Scheduling, Management, Monitoring of Nodes :
+# cat /etc/kubernetes/manifrests/<component>.yaml
 
 -- etcd - K/V database (nodes, pods, Configs, Secrets, Accounts, Roles, Bindings)
     
@@ -21,7 +38,33 @@ Nodes:
 
 
 -- kube-scheduler (pods scheduler, with capacity, resources and so on)
+
+    Scheduler is only responsible for decising which pod to what node
+    Criterias for decision: dedicated nodes, resources requirements
+    Example:
+        cpu requirement = 10
+        node w. 4 CPU will be filtered (FILTERING)
+        2 nodes with 12 and 16 CPUs left 
+        Calculating of left resources (2 and 6 CPUs) (RANKING)
+        16 CPUs node wins
+    Schedule options we have:
+        labels, selectors
+        daemon sets
+        resources limits
+        multiple schedulers
+        Manual Scheduling
+        Schedule events
+        
 -- controller-manager (node-controller, replication-controller)
+
+    Controller is a process which continiously checking the state of nodes;
+    Node controller woks via apiserver every 5 sec for heartbeat (node monitor period)
+    If node became ureachable:
+        wait for 5 min
+        ask for pods rescheduling (pod eviction timeout)
+    Configuration: kube-controller-manager.service
+    ps -aux | grep kube controller-manager
+
 -- kube-apiserver (all operations orchestration)
 
     kubectl is working with kube-apiserver
