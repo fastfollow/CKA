@@ -1,0 +1,45 @@
+Deafult Namespaces
+- kube-system
+- default
+- kube-public
+
+Basic concepts:
+Clusters for:
+- Prod
+- Dev
+
+You can define resource limits
+
+
+DNS:
+default namespace:
+
+default:
+    - db-service
+    - web-pod
+# mysql.connect("db-service")
+
+dev:
+    - db.service
+    - web-pod
+# mysql.connect("db.service.dev.svc.cluster.local")
+cluster.local - Domain Name of the cluster
+svc - Subdomain of the service
+dev - Namespace sub Domain
+
+#Commands
+# create
+kubectl create namespace dev
+#also via yaml
+
+# check pods
+kubectl get pods --namespace=kube-system
+kubectl get pods -n kube-system
+kubectl get pods --all-namespaces
+# run pod in specific namespace
+kubectl create -f <file> --namespace=dev
+kubectl run redis --image=redis --namespace=finance
+
+# set your(!) default namespace
+kubectl config set-context $(kubectl config current-context) --namespace=dev
+

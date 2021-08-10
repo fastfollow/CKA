@@ -1,0 +1,7 @@
+namespaces:
+    deployments:
+        replicasets:
+            pods:
+
+    services
+    

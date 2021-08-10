@@ -1,0 +1,7 @@
+Deployments are operating under replicasets which are operating under the pods
+
+
+# imperative
+kubectl create deployment httpd-frontend --image=httpd:2.4-alpine
+kubectl scale deployment --replicas=3 httpd-frontend
+
