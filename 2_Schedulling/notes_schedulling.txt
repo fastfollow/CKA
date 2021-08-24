@@ -1,0 +1,6 @@
+
+# LABELS
+
+#filter pods
+kubectl get pods -l environment=production,tier=frontend
+

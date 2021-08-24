@@ -1,0 +1,14 @@
+# metrics-server installation
+
+git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git
+kubectl create -f .
+
+# checking
+
+kubectl top node
+
+
+# event-simulator
+kubectl run events --image=kodekloud/event-simulator
+kubectl logs -f events
+kubectl logs -f events <container name> #if there are some of containers
