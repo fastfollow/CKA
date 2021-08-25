@@ -1,0 +1,42 @@
+# Two basic deployment strategies:  
+# all strategies are working via creation of new replicaset under the hood for possible rollback
+
+RECREATE (not defaut)
+1. Destroy old
+2. Application is down
+3. New deployed
+
+ROLLING UPDATE (default)
+1. Destroy one-by-obe
+2. Deploy one-by-one
+
+Rolling update guide:
+1. Fix deployment yaml
+2. kubectl apply -f <file> || kubectl set image deployment/myapp-deployment nginx=nginx:1.9.1
+3. Rolling Update starts
+
+Event logs indicators:
+1. RECREATE
+1.1. Scaled up (new deployment) to replicas counter
+1.2. Scaled down (old deployment) to replicas 0
+2. ROLLING UPDATE
+2.1. Scaled up new deployment to replicas counter
+2.2. Old Scaled down by -1
+
+
+
+Quick guide:
+CREATE: kubectl create -f <file>
+GET: kubectl get deployments
+UPDATE: 
+    1. kubectl apply -f <file>
+    2. kubectl set image deployment/myapp-deployment nginx=nginx:<ver>
+STATUS:
+    1. kubectl rollout status deployment/myapp-deployment
+    2. kubectl rollout history deployment/myapp-deployment
+ROLLBACK
+kubectl rollout undo deployment/myapp-deployment
+CHANGE STRATEGY:
+kubectl edit deployment <name> -> spec: strategy: type: Recreate 
+or via yaml and apply
+

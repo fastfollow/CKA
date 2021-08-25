@@ -1,0 +1,47 @@
+DIRECT ENVIRONMENT VARIABLE:
+
+spec:
+    containers:
+        - name: simple-webapp-color
+          image: simple-webapp-color
+          #command: ["sleep2.0"] #ENTRYPOINT in DockerFile
+          #args: ["10"] #CMD in DockerFile
+          env:
+            - name: APP_COLOR #similar to docker run -e APP_COLOR=pink simple-webapp-color
+              value: pink
+
+
+CONFIG MAP ENVIRONMENT VARIABLE:
+
+spec:
+    containers:
+        - name: simple-webapp-color
+          image: simple-webapp-color
+          #command: ["sleep2.0"] #ENTRYPOINT in DockerFile
+          #args: ["10"] #CMD in DockerFile
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_COLOR #similar to docker run -e APP_COLOR=pink simple-webapp-color
+              valueFrom: 
+                configMapKeyRef: 
+                    name: app-config #see below
+                    key: APP_COLOR
+                secretKeyRef
+
+
+ConfigMap:
+#imperative: kubectl create configmap app-config --from-literal=APP_COLOR=blue --from-literal=APP_MODE=prod
+#declarative: kubectl create -f <file>
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: app-config
+data:
+    APP_COLOR: blue
+    APP_MODE: prod
+
+#commands
+kubectl get configmaps
+kubectl describe configmaps

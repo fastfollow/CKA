@@ -1,0 +1,19 @@
+#Override default argument / add argumentm when entrypoing is defined in DockerFile
+
+spec:
+    containers:
+        - name: ubuntu-sleeper
+          image: ubuntu-sleeper
+          args: ["10"]
+
+
+#Override default entrypoing + override args 
+
+spec:
+    containers:
+        - name: ubuntu-sleeper
+          image: ubuntu-sleeper
+          command: ["sleep2.0"] #ENTRYPOINT in DockerFile
+          args: ["10"] #CMD in DockerFile
+
+
