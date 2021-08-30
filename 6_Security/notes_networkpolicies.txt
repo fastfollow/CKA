@@ -1,0 +1,26 @@
+apiVersion: netwrorking.k8s.io/v1
+kind: NetworkPolicu
+metadata:
+  name: db-policy
+spec:
+  podSelector:
+    matchLables: 
+      rold: db
+  policyTypes:
+  - ingress
+  - egress
+  ingress:
+    - from:
+      - podSelector:
+          matchLables:
+            name: api-pod
+      ports:
+        - protocol: TCP
+          port: 3306
+  egress:
+    - to:
+        ipBlock:
+          cidr: 192.168.0.5/32
+      ports:
+         - protocol: TCP
+           port: 80

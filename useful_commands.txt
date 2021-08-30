@@ -33,3 +33,6 @@ kubectl create service clusterip redis --tcp=6379:6379 --dry-run=client -o yaml
 kubectl expose pod nginx --type=NodePort --port=80 --name=nginx-service --dry-run=client -o yaml
 #or
 kubectl create service nodeport nginx --tcp=80:80 --node-port=30080 --dry-run=client -o yaml
+
+#exec into container example
+kubectl -n elastic-stack exec -it app -- cat /log/app.log

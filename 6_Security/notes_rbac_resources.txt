@@ -1,0 +1,4 @@
+Check resources class:
+
+kubectl api-resources --namespaced=true
+kubectl api-resources --namespaced=false #for clusterspaced

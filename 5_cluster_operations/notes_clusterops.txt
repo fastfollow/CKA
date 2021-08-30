@@ -1,0 +1,12 @@
+
+#Make node unschedulable
+kubectl cordon <node>
+
+
+#Remove workload from node, workload will be scheduled on other nodes
+kubectl drain <node> 
+
+
+#Make node came back. Workload won't be scheduled back automatically
+kubectl uncordon <node>
+

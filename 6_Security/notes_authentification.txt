@@ -1,0 +1,17 @@
+# STATIC PASSWORD FILE
+
+/etc/<manifests>/kube-apiservier.yaml
+
+to command add:
+- --basic-auth-file:<file.csv>
+CSV format:
+password,user,userid,group #group is optional
+password123,user1,u001
+
+# STATIC TOKEN FILE
+
+to command add:
+- --token-auth-file:<file.csv>
+CSV format:
+usertoken,user,userid,group #group is optional
+<token>,user1,u001

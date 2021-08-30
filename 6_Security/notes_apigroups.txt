@@ -1,0 +1,51 @@
+How to view:
+
+# KEEP IN MIND REQUIREMENT OF AUTH
+curl https://kubernetes.cluster:6443/api/v1/pods \
+--key admin.key
+--cert admin.crt
+--cacert ca.crt
+You can start kubectl proxy  (easy http proxy utility) do not proved certs each time
+Step 1
+kubectl proxy #see output. KUBECTL PROXY != KUBE PROXY
+curl http://localhost:<port, looks like 8001> -k
+
+#list groups:
+
+curl http://localhost:6443 -k
+
+#list Resources
+curl http://localhost:6443 -k | grep "name"
+
+
+/version
+curl https://kubernetes.cluster:6443/version #view version
+
+
+/api #core group
+curl https://kubernetes.cluster:6443/api/v1/pods #view pods
+/api/v1
+/api/v1/namespaces
+/api/v1/podsrc
+/api/v1/configmaps and so on
+
+
+/apis #named group
+
+
+Groups: apps, extensions, networking, storage
+
+Reosurces:
+/apis/apps/v1/deploymets
+/apis/apps/v1/replicasets
+/apis/apps/v1/statefulsets
+
+/apis/networking.k8s.io/v1/networkpolicies and so on
+
+/metrics
+
+/logs
+
+
+
+/healthz

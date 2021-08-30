@@ -27,7 +27,7 @@ spec:
                 configMapKeyRef: 
                     name: app-config #see below
                     key: APP_COLOR
-                secretKeyRef
+                
 
 
 ConfigMap:

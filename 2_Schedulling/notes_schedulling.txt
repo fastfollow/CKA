@@ -3,4 +3,12 @@
 
 #filter pods
 kubectl get pods -l environment=production,tier=frontend
+#label nodes (for nodeSelector in Pods)
+kubectl label nodes <name> <key>=<value>
+kubectl label nodes node01 size=Large
 
+
+# TAINTS
+
+
+# Affinity

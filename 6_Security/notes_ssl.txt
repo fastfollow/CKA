@@ -1,0 +1,41 @@
+#Certificates list
+
+- admin user (to api)
+admin.crt
+admin.key
+- kube scheduler (same) (to api)
+- controller manager (to api)
+- kube-proxy (to api)
+- kuebelet (from api)
+to api pair
+kubelet pair
+- kube-apiserver (to kubelet, etcd, from clients):
+apiserver to kubelet pair
+apiserver to etcd pair
+apiserver pair
+- etcd pair (from api)
+CA pair
+
+
+1. Start with CA
+#create
+openssl genrsa -out ca.key 2048
+# create CA certificate (get csr file)
+openssl req -x509 -new -nodes -key ca.key -subj "/CN=${MASTER_IP}" -days 10000 -out ca.csr # or "/CN=KUBERNETES-CA"
+# sign certificate
+openssl x509 -req -in ca.csr -signkey ca.key
+2. So we have root certificates.
+3. Client certificates (admin user):
+3.1 Generate keys
+openssl genrsa -out admin.key 2048
+3.2. Certificate Signing request
+openssl req -new  -key admin.key -subj "CN=kube-admin" -out admin.csr 
+3.3. Sign the certificate
+openssl x509 -req -in admin.csr -CA ca.crt -CAkey ca.key -signkey admin.key
+
+
+#Create private key
+openssl genrsa -out mybank.key 1024
+
+#Create publcic
+openssl rsa -in mybank.key -pubout > mybank.pem

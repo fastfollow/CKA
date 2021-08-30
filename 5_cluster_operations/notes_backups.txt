@@ -1,0 +1,43 @@
+#get declaratives for all
+kubectl get all --all-namespaces -o yaml > all-services.yaml
+# +see Velero tool
+
+#ETCD backups
+etcd.service:
+#see "--data-dir=/<>?" - location of data to be backuped by external tools
+# internal snapshot solutions:
+Example: etcdctl snapshot save snapshot.db
+
+So: 
+1. etcdctl snapshot save s.db
+2. ls
+3. etcdctl snapshot status s.db
+Restoration:
+4. service kube-apiserver stop
+5. etcdctl snapshot restore s.db --data-dir /var/lib/etcd-restored
+6. fix etcd.service configuration file for new --data-dir
+7. systemctl daemon reload
+8. service etcd restart
+9. service kube-apiserver start
+10. done
+
+
+#SNAPSHOTING
+kubectl describe pods etcd-controlplane -n kube-system          
+#then
+For example, if you want to take a snapshot of etcd, use:
+etcdctl snapshot save -h and keep a note of the mandatory global options.
+Since our ETCD database is TLS-Enabled, the following options are mandatory:
+--cacert                                                verify certificates of TLS-enabled secure servers using this CA bundle
+--cert                                                    identify secure client using this TLS certificate file
+--endpoints=[127.0.0.1:2379]          This is the default as ETCD is running on master node and exposed on localhost 2379.
+--key                                                      identify secure client using this TLS key file
+#check for guide
+https://github.com/mmumshad/kubernetes-the-hard-way/blob/master/practice-questions-answers/cluster-maintenance/backup-etcd/etcd-backup-and-restore.md
+
+#Command
+ETCDCTL_API=3 etcdctl --endpoints=https://[127.0.0.1]:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+     --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key \
+     snapshot save /opt/snapshot-pre-boot.db
+
+

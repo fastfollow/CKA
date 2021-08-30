@@ -1,0 +1,31 @@
+SEE THE https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
+
+
+
+
+
+
+kubeadm upgrage plan
+
+kubeadm upgrage apply <ver> #kubelets must be upgraded manually
+
+
+guide:
+kubeadm version
+apt-get upgrade -y kubeadm=1.12.0
+kubeadm upgrade aplly v1.12.0 
+#wait for control plane updating
+kubectl get nodes #to check kubelets
+apt-get upgrade -y kubelet=1.12.0
+kubeadm upgrade node config --kubelet-version v1.12.0
+systemctl restart kubelet
+kubectl get nodes #to check
+
+Worker nodes:
+1. Drain node
+2. Upgrade kubeadm
+3. Upgrade kubelet
+4. Fix config version
+5. Restart kubelet
+6. Check node
+7. Uncordon node

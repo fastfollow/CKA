@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+spec:
+  containers:
+  - image: alpine
+    name: alpine
+    commands: ["/bin/sh", "-c"]
+    args: ["shuf -i 0-100 -n 1 >> /opt/number.out;"]
+    volumeMounts:
+    - mountPath: /opt
+      name: data-volume
+  volumes:
+  - name: data-volume
+    hostPath: /data
+    type: Directory
+
+# this method is not recommended for multi node configuration due to the problem, that pods will use different /data direcotries (on different nodes)

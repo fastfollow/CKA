@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+spec:
+  containers:
+    - name: data-collector
+      image: data-collector
+  nodeSelector:
+    size: Large
+    
