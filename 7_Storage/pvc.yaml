@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-vol01
+spec:
+   persistentVolumeReclaimPolicy: Retain #default
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+ awsElasticBlockStore:
+   volumeID: <volume-id>
+   fsType: ext4
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+resources:
+  requests:
+    storage: 500Mi
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: myfrontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: myclaim
